@@ -1,37 +1,55 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Colors } from "@/constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import { useColorScheme } from "react-native";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+    const currentTheme = useColorScheme() || "light";
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
+    return (
+        <Tabs
+            screenOptions={{
+                headerShown: false,
+                tabBarShowLabel: false,
+                tabBarActiveTintColor: Colors[currentTheme].mkbhdOrange,
+                tabBarStyle: {
+                    backgroundColor: Colors[currentTheme].background,
+                    // paddingTop: 10,
+                    // paddingBottom: 20,
+                    borderTopWidth: 0,
+                },
+            }}
+        >
+
+            <Tabs.Screen
+                name="foryou"
+                options={{
+                    title: 'For You',
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons name={focused ? 'home' : 'home-outline'} color={color} size={focused ? 33 : 28}  />
+                    )
+                }}
+            />
+
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: 'Explore',
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons name={focused ? 'albums' : 'albums-outline'} color={color} size={focused ? 33 : 28}  />
+                    )
+                }}
+            />
+
+            <Tabs.Screen
+                name="account"
+                options={{
+                    title: 'Account',
+                    tabBarIcon: ({ color, focused }) => (
+                        <Ionicons name={focused ? 'person' : 'person-outline'} color={color} size={focused ? 33 : 28}  />
+                    )
+                }}
+            />
+        </Tabs>
+    )
 }

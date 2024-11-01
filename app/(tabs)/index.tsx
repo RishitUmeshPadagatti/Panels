@@ -8,7 +8,7 @@ import { StyleSheet } from "react-native";
 import { useRecoilValue } from "recoil";
 
 export default function Index() {
-
+	
 	return (
 		<ThemedView style={styles.container}>
 			<ParallaxScrollView
@@ -31,7 +31,7 @@ function AllPicturesComponent() {
 	return (
 		<ThemedView style={styles.allPicturesContainer}>
 			{allPictures.map((element) => (
-				<ImageComponent 
+				<ImageComponent
 					key={element.id}
 					picture={element}
 				/>

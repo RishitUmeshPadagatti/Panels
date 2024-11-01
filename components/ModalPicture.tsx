@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
     },
     imageContainer: {
-        height: '75%',
+        height: '78%',
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
         overflow: 'hidden',
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         // zIndex: 1,
     },
     parentButtonContainer: {
-        height: '25%',
+        height: '22%',
 
         alignItems: 'center',
         justifyContent: 'center',

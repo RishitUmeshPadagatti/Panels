@@ -26,24 +26,22 @@ export const libraryArrayAtom = atom<number[]>({
 
 export const likedPicturesAtom = selector<Picture[]>({
     key: 'likedPicturesAtom',
-    get: async ({get}) => {
+    get: async ({ get }) => {
         const dataArray = get(likedArrayAtom)
-        const filteredElements = values.filter((element) => {
-            if (dataArray?.includes(element.id)) {return true}
-            else return false
-        })
+        const filteredElements = values
+            .filter(element => dataArray.includes(element.id))
+            .sort((a, b) => dataArray.indexOf(a.id) - dataArray.indexOf(b.id));
         return filteredElements
     }
 })
 
 export const libraryPicturesAtom = selector<Picture[]>({
     key: 'libraryPicturesAtom',
-    get: async ({get}) => {
+    get: async ({ get }) => {
         const dataArray = get(libraryArrayAtom)
-        const filteredElements = values.filter((element) => {
-            if (dataArray?.includes(element.id)) {return true}
-            else return false
-        })
+        const filteredElements = values
+            .filter(element => dataArray.includes(element.id))
+            .sort((a, b) => dataArray.indexOf(a.id) - dataArray.indexOf(b.id));
         return filteredElements
     }
 })
@@ -52,7 +50,7 @@ export const allPicturesAtom = atom<Picture[]>({
     key: 'allPicturesAtom',
     default: selector({
         key: 'allPicturesAtomSelector',
-        get: ({get}) => {
+        get: ({ get }) => {
             const likedArray = get(likedArrayAtom);
             const libraryArray = get(libraryArrayAtom);
             const filteredElements = values.filter((element) => {
@@ -71,5 +69,5 @@ export const showModalAtom = atom<boolean>({
 
 export const currentSelectedAtom = atom<Picture>({
     key: 'currentSelectedAtom',
-    default: {id: 0, url: ""}
+    default: { id: 0, url: "" }
 })

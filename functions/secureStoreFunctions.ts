@@ -5,14 +5,13 @@ export type locationType = 'liked' | 'library'
 export const saveToSecureStore = async (id: number, location: locationType) => {
     try {
         const existingData = await SecureStore.getItemAsync(location);
-        console.log("Here: ", existingData)
 
         let ids = [];
         try {
             ids = existingData ? JSON.parse(existingData) : [];
             if (!Array.isArray(ids)) ids = []; // Ensure it's an array
         } catch (e) {
-            console.log("Error parsing JSON:", e);
+            console.error("Error parsing JSON:", e);
             ids = []; // Fallback in case parsing fails
         }
 
@@ -22,7 +21,7 @@ export const saveToSecureStore = async (id: number, location: locationType) => {
         }
 
     } catch (error) {
-        console.log("\nError saving data", error)
+        console.error("\nError saving data", error)
     }
 }
 
@@ -31,7 +30,7 @@ export const getFromSecureStore = async (location: locationType) => {
         const result = await SecureStore.getItemAsync(location);
         return result;
     } catch (error) {
-        console.log("\nError getting data", error);
+        console.error("\nError getting data", error);
     }
 };
 
@@ -42,6 +41,6 @@ export const removeFromSecureStore = async (id: number, location: locationType) 
         await SecureStore.setItemAsync(location, JSON.stringify(updatedData))
 
     } catch (error) {
-        console.log("\nError deleting data", error)
+        console.error("\nError deleting data", error)
     }
 }

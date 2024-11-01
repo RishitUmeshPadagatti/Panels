@@ -1,25 +1,34 @@
-import { currentSelectedAtom } from "@/atoms/atoms"
+import { currentSelectedAtom, likedArrayAtom } from "@/atoms/atoms"
 import { Colors } from "@/constants/Colors"
-import { activeOpacity, Picture } from "@/constants/Values"
+import { activeOpacity } from "@/constants/Values"
+import { removeFromSecureStore, saveToSecureStore } from "@/functions/secureStoreFunctions"
+import { useLikedPictureOrNot } from "@/hooks/useLikedPictureOrNot"
 import { Ionicons } from "@expo/vector-icons"
-import { useState } from "react"
 import { StyleSheet, TouchableOpacity, useColorScheme } from "react-native"
-import { useRecoilState } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 
 export function LikeIconInModal() {
     const currentTheme = useColorScheme() || "light"
+    const pictureLikedOrNot = useLikedPictureOrNot()
 
-    const [imageLikedOrNot, setImageLikedOrNot] = useState<boolean>(true)
-    const [currentlySelected, setCurrentlySelected] = useRecoilState<Picture>(currentSelectedAtom)
-
-    console.log(currentlySelected.id)
-
-    const likePicture = () => {
-        setImageLikedOrNot(e => !e)
+    const currentlySelected = useRecoilValue(currentSelectedAtom)
+    const setLikedArray = useSetRecoilState(likedArrayAtom)
+    
+    const toggleLikePicture = async () => {
+        if (pictureLikedOrNot){
+            // Disliking
+            await removeFromSecureStore(currentlySelected.id, "liked")
+            setLikedArray((prevArray) => prevArray.filter((element) => element !== currentlySelected.id));
+        }
+        else {
+            // Liking
+            await saveToSecureStore(currentlySelected.id, "liked");
+            setLikedArray((prevArray) => [currentlySelected.id, ...prevArray]);
+        }
     }
 
-    return <TouchableOpacity onPress={likePicture} style={styles.likeIcon} activeOpacity={activeOpacity}>
-        <Ionicons name={imageLikedOrNot ? "heart" : "heart-outline"} color={imageLikedOrNot ? Colors.light.mkbhdOrange : Colors[currentTheme].text} size={30} />
+    return <TouchableOpacity onPress={toggleLikePicture} style={styles.likeIcon} activeOpacity={activeOpacity}>
+        <Ionicons name={pictureLikedOrNot ? "heart" : "heart-outline"} color={pictureLikedOrNot ? Colors.light.mkbhdOrange : Colors[currentTheme].text} size={30} />
     </TouchableOpacity >
 } 
 

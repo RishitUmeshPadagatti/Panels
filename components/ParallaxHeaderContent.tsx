@@ -15,7 +15,7 @@ export function ParallaxHeaderContent() {
                 loop
                 width={width}
                 // height={width / 2}
-                // autoPlay={true}  // Uncomment this
+                autoPlay={true}  // Uncomment this
                 autoPlayInterval={3500}
                 scrollAnimationDuration={900}
                 data={[...pictures]}
